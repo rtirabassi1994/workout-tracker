@@ -1,6 +1,8 @@
 var express = require("express");
 // Import routes and give the server access to them.
 var htmlRoutes = require("./routes/htmlRoutes");
+var apiRoutes = require("./routes/apiRoutes")
+const mongoose = require("mongoose");
 
 var PORT = process.env.PORT || 3000;
 
@@ -13,6 +15,12 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+mongoose.connect("mongodb://localhost/workout", {
+  useNewUrlParser: true,
+  useFindAndModify: false
+});
+
+app.use(apiRoutes);
 app.use(htmlRoutes);
 
 // Start our server so that it can begin listening to client requests.
